@@ -11,7 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import SendIcon from '@mui/icons-material/SportsVolleyball';
 
 
-const GamesList = ({ list }) => {
+const GamesList = ({ list, onChange }) => {
 
     return (
         <div className='GamesList'>
@@ -26,7 +26,9 @@ const GamesList = ({ list }) => {
                 }
             >
                 {list.map(game => (
-                    <ListItemButton>
+                    <ListItemButton
+                        onClick={() => onChange(game)}
+                    >
                         <ListItemIcon>
                             <SendIcon />
                         </ListItemIcon>

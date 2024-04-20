@@ -28,15 +28,14 @@ const GamesList = ({ list, onChange }) => {
                 {list.map(game => (
                     <ListItemButton
                         onClick={() => onChange(game)}
+                        key={game.id}
                     >
                         <ListItemIcon>
                             <SendIcon />
                         </ListItemIcon>
-                        <ListItemText primary={game.id} />
+                        <ListItemText primary={game.gameName}  secondary={`id: ${game.id} score: ${game.team1Score} - ${game.team2Score}`}/>
                     </ListItemButton>
                 ))}
-
-
             </List>
         </div>
     );

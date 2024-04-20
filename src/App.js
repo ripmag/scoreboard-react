@@ -1,21 +1,33 @@
 // import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
 
 import GamesList from './components/GamesList';
 import GameBoard from './components/GameBoard';
 
-
-const list = [{ id: 1 }, { id: 2 }]
-
 function App() {
   const [game, setGame] = useState();
+  const [gamesList, setGamesList] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect( () => {
+    if (!isLoading)
+    {
+      axios.get('http://localhost:3000/games/getGames')
+        .then((response) => setGamesList(response.data));
+      setIsLoading(true);
+    }
+  },[])
+
+  if (!game && !gamesList) {
+    return <CircularProgress />
+  }
+
   return (
     <>
-      <CssBaseline />
       <Container maxWidth="sm">
         {game ?
           <GameBoard
@@ -24,7 +36,7 @@ function App() {
           />
           :
           <GamesList
-            list={list}
+            list={gamesList}
             onChange={setGame}
           />}
       </Container>

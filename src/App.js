@@ -35,6 +35,7 @@ function App() {
           <GameBoard
             game={game}
             onClose={() => setGame()}
+            onChange={setGame}
           />
           :
           <GamesList

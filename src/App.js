@@ -13,17 +13,19 @@ function App() {
   const [gamesList, setGamesList] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect( () => {
-    if (!isLoading)
-    {
+  useEffect(() => {
+    if (!isLoading) {
       axios.get('http://localhost:3000/games/getGames')
         .then((response) => setGamesList(response.data));
       setIsLoading(true);
     }
-  },[])
+  }, [])
 
   if (!game && !gamesList) {
-    return <CircularProgress />
+    return (
+      <Container maxWidth="sm">
+        <CircularProgress />
+      </Container>)
   }
 
   return (

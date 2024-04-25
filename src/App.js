@@ -30,7 +30,7 @@ function App() {
 
   return (
     <>
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" sx={{ p: 1}}>
         {game ?
           <GameBoard
             game={game}

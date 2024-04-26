@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import axios from 'axios';
+import apiService from '../services/api.ts';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Button } from '@mui/base/Button';
@@ -11,36 +11,32 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 
-const config = { headers: { 'Content-Type': 'application/json' } };
-
 const GameBoard = ({ game, onChange }) => {
 
     const addPointTeam1 = () => {
-        axios.post(`http://localhost:3000/games/${game.id}/addPointTeam1`)
-            .then((response) => onChange(response.data));
+        apiService.addPointTeam1(game.id)
+            .then((data) => onChange(data));
     }
 
     const addPointTeam2 = () => {
-        axios.post(`http://localhost:3000/games/${game.id}/addPointTeam2`)
-            .then((response) => onChange(response.data));
-    }
-
-    const updateInfo = (content) => {
-        axios.put(`http://localhost:3000/games/${game.id}/updateInfo`, content, config)
-            .then((response) => onChange(response.data));
+        apiService.addPointTeam2(game.id)
+            .then((data) => onChange(data));
     }
 
     const onEditGameName = (e) => {
         const newGameName = e.target.value;
-        updateInfo({ gameName: newGameName });
+        apiService.onEditGameName(game.id, newGameName)
+            .then((data) => onChange(data));
     }
 
     const onEditTeam1 = (e) => {
-        updateInfo({ team1Name: e.target.value });
+        apiService.onEditTeam1(game.id, e.target.value)
+            .then((data) => onChange(data));
     }
 
     const onEditTeam2 = (e) => {
-        updateInfo({ team2Name: e.target.value });
+        apiService.onEditTeam2(game.id, e.target.value)
+            .then((data) => onChange(data));
     }
 
     return (

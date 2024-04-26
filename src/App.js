@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
-import axios from 'axios';
+import apiService from './services/api.ts';
 
 import GamesList from './components/GamesList';
 import GameBoard from './components/GameBoard';
@@ -12,14 +12,20 @@ function App() {
   const [game, setGame] = useState();
   const [gamesList, setGamesList] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setError] = useState();
 
   useEffect(() => {
     if (!isLoading) {
-      axios.get('http://localhost:3000/games/getGames')
-        .then((response) => setGamesList(response.data));
+      apiService.getGames()
+        .then(data => setGamesList(data))
+        .catch(error => setError(error.message));
       setIsLoading(true);
     }
-  }, [])
+  }, [isLoading])
+
+  if (hasError) {
+    return <>{hasError}</>
+  }
 
   if (!game && !gamesList) {
     return (

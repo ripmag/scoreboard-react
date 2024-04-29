@@ -1,15 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
+import { GameDTO } from '../entities/game-dto';
 
 // Интерфейс для данных, получаемых от сервера
-interface ApiResponse {
-  team2Name: string;
-  setsScore: string[];
-  team1Score: number;
-  team2Score: number;
-  setsWinTeam1: number;
-  setsWinTeam2: number;
-  isGameOver: boolean;
-}
+interface ApiResponse extends GameDTO {}
 
 class ApiService {
 

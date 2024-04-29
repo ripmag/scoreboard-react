@@ -8,20 +8,26 @@ import apiService from './services/api.ts';
 import GamesList from './components/GamesList';
 import GameBoard from './components/GameBoard';
 
+import { useSelector, useDispatch } from 'react-redux'
+import { setLoaded } from './features/games/gamesSlice.ts';
+
 function App() {
   const [game, setGame] = useState();
   const [gamesList, setGamesList] = useState();
-  const [isLoading, setIsLoading] = useState(false);
   const [hasError, setError] = useState();
+
+  const isLoading = useSelector((state) => state.games.isLoading);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isLoading) {
       apiService.getGames()
         .then(data => setGamesList(data))
         .catch(error => setError(error.message));
-      setIsLoading(true);
+
+      dispatch(setLoaded(true));
     }
-  }, [isLoading])
+  }, [dispatch, isLoading])
 
   if (hasError) {
     return <>{hasError}</>

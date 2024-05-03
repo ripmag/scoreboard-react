@@ -10,18 +10,28 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { addPointTeam1, addPointTeam2 } from '../features/games/gamesSlice.ts';
 
-const GameBoard = ({ game, onChange }) => {
 
-    const addPointTeam1 = () => {
-        apiService.addPointTeam1(game.id)
-            .then((data) => onChange(data));
-    }
+const GameBoard = ({ onChange }) => {
 
-    const addPointTeam2 = () => {
-        apiService.addPointTeam2(game.id)
-            .then((data) => onChange(data));
-    }
+    const list = useSelector((state) => state.games.list);
+    const dispatch = useDispatch();
+    const { id } = useParams();
+    console.log('id',id)
+    const game = list.find(game => game.id === +id);
+
+    // const addPointTeam1 = () => {
+    //     apiService.addPointTeam1(id)
+    //         .then((data) => onChange(data));
+    // }
+
+    // const addPointTeam2 = () => {
+    //     apiService.addPointTeam2(game.id)
+    //         .then((data) => onChange(data));
+    // }
 
     const onEditGameName = (e) => {
         const newGameName = e.target.value;
@@ -90,13 +100,13 @@ const GameBoard = ({ game, onChange }) => {
                 <Grid item xs={6}>
                     <Button
                         disabled={game.isGameOver}
-                        onClick={addPointTeam1}
+                        onClick={() => dispatch(addPointTeam1(id))}
                     >+</Button>
                 </Grid>
                 <Grid item xs={6}>
                     <Button
                         disabled={game.isGameOver}
-                        onClick={addPointTeam2}
+                        onClick={() => dispatch(addPointTeam2(id))}
                     >+</Button>
                 </Grid>
             </Grid>

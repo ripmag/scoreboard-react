@@ -1,5 +1,6 @@
 export interface GameDTO
  {
+    id: number;
     team2Name: string;
     setsScore: string[];
     team1Score: number;

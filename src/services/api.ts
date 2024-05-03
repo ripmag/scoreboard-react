@@ -2,14 +2,14 @@ import axios, { AxiosResponse } from 'axios';
 import { GameDTO } from '../entities/game-dto';
 
 // Интерфейс для данных, получаемых от сервера
-interface ApiResponse extends GameDTO {}
+export interface IApiResponse extends GameDTO {}
 
 class ApiService {
 
   private baseUrl = 'http://localhost:3000/games';
   private config = { headers: { 'Content-Type': 'application/json' } };
 
-  async get(endpoint: string): Promise<ApiResponse> {
+  async get(endpoint: string): Promise<IApiResponse | IApiResponse[]> {
     const url = `${this.baseUrl}/${endpoint}`
     try {
       const response: AxiosResponse = await axios.get(url);
@@ -21,7 +21,7 @@ class ApiService {
     }
   }
 
-  async post(endpoint: string, id: number): Promise<ApiResponse> {
+  async post(endpoint: string, id: number): Promise<IApiResponse> {
     const url = `${this.baseUrl}/${id}/${endpoint}`;
 
     try {
@@ -34,7 +34,7 @@ class ApiService {
     }
   }
 
-  async put(endpoint: string, id: number, content: any): Promise<ApiResponse> {
+  async put(endpoint: string, id: number, content: any): Promise<IApiResponse> {
     const url = `${this.baseUrl}/${id}/${endpoint}`;
 
     try {
@@ -63,16 +63,17 @@ class ApiService {
     return this.updateInfo(id, {team2Name: name});
   }
 
-  addPointTeam1(id: number) : Promise<ApiResponse> {
-    return this.post('addPointTeam1', id);
-  }
+  // async addPointTeam1(id: number) : Promise<IApiResponse> {
+  //   return await this.post('addPointTeam1', id);
+  // }
 
-  addPointTeam2(id: number) : Promise<ApiResponse> {
-    return this.post('addPointTeam2', id);
-  }
+  // async addPointTeam2(id: number) : Promise<IApiResponse> {
+  //   return await this.post('addPointTeam2', id);
+  // }
 
-  getGames(): Promise<ApiResponse> {
-    return this.get('getGames');
+  async getGames(): Promise<IApiResponse[]> {
+    const response = await this.get('getGames');
+    return Array.isArray(response) ? response : [response];
   }
 }
 

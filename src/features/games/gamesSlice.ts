@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import apiService from '../../services/api.ts'
 import { IApiResponse } from '../../services/api.ts'
 
-import { useDispatch } from 'react-redux'
-
 export const getGamesList = createAsyncThunk(
   'games/getGames',
   async (_, thunkAPI) => {

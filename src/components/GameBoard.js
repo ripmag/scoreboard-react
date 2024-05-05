@@ -29,7 +29,6 @@ const GameBoard = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const [game, setGame] = useState();
-    const [dbVal, setDbVal] = useState();
 
     const helperText = game && game.isGameOver ? "Game finished" : "You can edit it";
 
@@ -64,7 +63,6 @@ const GameBoard = () => {
                             sx={{ m: 2, mb: 0 }}
                             id="outlined-helperText"
                             label="Name of the game"
-                            // value={dbVal}
                             defaultValue={game.gameName}
                             disabled={game.isGameOver}
                             helperText={helperText}

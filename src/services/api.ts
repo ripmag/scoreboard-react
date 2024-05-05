@@ -52,7 +52,7 @@ class ApiService {
     const url = `${this.baseUrl}/${id}`;
 
     try {
-      const response: AxiosResponse = await axios.delete(url, this.config);
+      await axios.delete(url, this.config);
       return true;
 
     } catch (error) {

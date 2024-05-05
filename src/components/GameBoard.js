@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -28,6 +29,7 @@ const GameBoard = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const [game, setGame] = useState();
+    const [dbVal, setDbVal] = useState();
 
     const helperText = game && game.isGameOver ? "Game finished" : "You can edit it";
 
@@ -35,12 +37,24 @@ const GameBoard = () => {
         setGame(list.find(game => game.id === +id));
     }, [list, id])
 
+    const editName = debounce((e) => {
+        dispatch(onEditGameName({ id, name: e.target.value }));
+    }, 1000)
+
+    const editTeam1 = debounce((e) => {
+        dispatch(onEditTeam1({ id, name: e.target.value }));
+    }, 1000)
+
+    const editTeam2 = debounce((e) => {
+        dispatch(onEditTeam2({ id, name: e.target.value }));
+    }, 1000)
+
     if (!game) { return null; }
 
     return (
         <>
             <Grid container spacing={2} >
-                <Grid 
+                <Grid
                     item xs={12}
                     alignItems="center"
                     justifyContent="center"
@@ -50,10 +64,11 @@ const GameBoard = () => {
                             sx={{ m: 2, mb: 0 }}
                             id="outlined-helperText"
                             label="Name of the game"
-                            value={game.gameName}
+                            // value={dbVal}
+                            defaultValue={game.gameName}
                             disabled={game.isGameOver}
                             helperText={helperText}
-                            onChange={(e) => dispatch(onEditGameName({ id, name: e.target.value }))}
+                            onChange={editName}
                         />
                     </Stack>
                 </Grid>
@@ -62,10 +77,10 @@ const GameBoard = () => {
                         sx={{ m: 2 }}
                         id="outlined-helperText"
                         label="Team1"
-                        value={game.team1Name}
+                        defaultValue={game.team1Name}
                         disabled={game.isGameOver}
                         helperText={helperText}
-                        onChange={(e) => dispatch(onEditTeam1({ id, name: e.target.value }))}
+                        onChange={editTeam1}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -73,10 +88,10 @@ const GameBoard = () => {
                         sx={{ m: 2 }}
                         id="outlined-helperText"
                         label="Team2"
-                        value={game.team2Name}
+                        defaultValue={game.team2Name}
                         disabled={game.isGameOver}
                         helperText={helperText}
-                        onChange={(e) => dispatch(onEditTeam2({ id, name: e.target.value }))}
+                        onChange={editTeam2}
                     />
                 </Grid>
                 <Grid item xs={4}>

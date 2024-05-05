@@ -22,7 +22,7 @@ export const Layout = () => {
 
     const handleAddGame = () => {
         dispatch(createGame())
-            .then(res => navigate (`/game/${unwrapResult(res)}`) );
+            .then(res => navigate(`/game/${unwrapResult(res)}`));
     }
     return (
         <>

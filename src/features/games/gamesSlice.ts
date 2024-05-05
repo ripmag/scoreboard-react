@@ -24,7 +24,20 @@ export const deleteGame = createAsyncThunk(
     if (result) {
       await thunkAPI.dispatch(getGamesList());
     }
-    
+
+    return result;
+  },
+)
+
+export const resetGame = createAsyncThunk(
+  'games/reset',
+  async ({ id }: FetchDataParams, thunkAPI) => {
+    const result = await apiService.post('reset', id);
+
+    if (result) {
+      await thunkAPI.dispatch(getGamesList());
+    }
+
     return result;
   },
 )
@@ -66,13 +79,13 @@ export const createGame = createAsyncThunk(
   'games/createGame',
   async (_, thunkAPI) => {
     const result = await apiService.get('createGame');
-    console.log('res',result[0])
+    console.log('res', result[0])
 
     if (result[0]) {
       await thunkAPI.dispatch(getGamesList());
       return result[0].id;
     }
-    
+
   },
 )
 
@@ -106,7 +119,8 @@ export const gamesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getGamesList.fulfilled, (state, action) => {console.log('getGamesList')
+    builder.addCase(getGamesList.fulfilled, (state, action) => {
+      console.log('getGamesList')
       state.list = action.payload;
       state.isReady = true;
     })

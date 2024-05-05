@@ -112,7 +112,7 @@ const GameBoard = () => {
                         {game.setsScore.map((set, setNumber) => (
                             <div key={setNumber}>
                                 <ListItem>
-                                    <ListItemText primary={set} secondary={`Set - ${setNumber}`} align='center' />
+                                    <ListItemText primary={`Set - ${setNumber + 1}`} secondary={set} align='center' />
                                 </ListItem>
                                 <Divider component="li" />
                             </div>

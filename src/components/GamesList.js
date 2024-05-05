@@ -16,7 +16,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom';
 import { Stack } from '@mui/material';
 
-import { deleteGame } from '../features/games/gamesSlice.ts';
+import { deleteGame, resetGame } from '../features/games/gamesSlice.ts';
 
 
 const GamesList = () => {
@@ -26,7 +26,7 @@ const GamesList = () => {
     return (
         <>
             <List
-                sx={{ width: '100%', maxWidth: 360 }}
+                sx={{ width: '100%', maxWidth: 460 }}
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 subheader={
@@ -54,8 +54,7 @@ const GamesList = () => {
                                     <ListItemIcon>
                                         <BallIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={game.gameName} secondary={`id: ${game.id} score: ${game.team1Score} - ${game.team2Score}`} />
-
+                                    <ListItemText primary={game.gameName} secondary={`id: ${game.id} ${game.team1Score} - ${game.team2Score}`} />
                                 </ListItemButton>
                             </NavLink>
                             <ListItemIcon
@@ -69,11 +68,17 @@ const GamesList = () => {
                                 <Button
                                     variant="contained"
                                     title='delete game'
-                                    onClick={() => dispatch(deleteGame( {id: game.id} ))}
+                                    onClick={() => dispatch(deleteGame({ id: game.id }))}
                                 >
                                     <DeleteIcon />
                                 </Button>
-                                <ResetScoreIcon />
+                                <Button
+                                    variant="contained"
+                                    title='reset game'
+                                    onClick={() => dispatch(resetGame({ id: game.id }))}
+                                >
+                                    <ResetScoreIcon />
+                                </Button>
                             </ListItemIcon>
                         </Stack>
 

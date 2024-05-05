@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import apiService from '../services/api.ts';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Button } from '@mui/base/Button';
@@ -12,42 +11,27 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { addPointTeam1, addPointTeam2 } from '../features/games/gamesSlice.ts';
+import { 
+    addPointTeam1,
+    addPointTeam2,
+    onEditGameName,
+    onEditTeam1,
+    onEditTeam2,
+ } from '../features/games/gamesSlice.ts';
 
 
 const GameBoard = ({ onChange }) => {
 
     const list = useSelector((state) => state.games.list);
     const dispatch = useDispatch();
-    const { id } = useParams();
-    console.log('id',id)
-    const game = list.find(game => game.id === +id);
+    const { id } = useParams();    
+    const [game, setGame] = useState();
 
-    // const addPointTeam1 = () => {
-    //     apiService.addPointTeam1(id)
-    //         .then((data) => onChange(data));
-    // }
+    useEffect( () => {
+        setGame(list.find(game => game.id === +id));
+    }, [list, id])
 
-    // const addPointTeam2 = () => {
-    //     apiService.addPointTeam2(game.id)
-    //         .then((data) => onChange(data));
-    // }
-
-    const onEditGameName = (e) => {
-        const newGameName = e.target.value;
-        apiService.onEditGameName(game.id, newGameName)
-            .then((data) => onChange(data));
-    }
-
-    const onEditTeam1 = (e) => {
-        apiService.onEditTeam1(game.id, e.target.value)
-            .then((data) => onChange(data));
-    }
-
-    const onEditTeam2 = (e) => {
-        apiService.onEditTeam2(game.id, e.target.value)
-            .then((data) => onChange(data));
-    }
+    if (!game) {return null;}
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -58,7 +42,7 @@ const GameBoard = ({ onChange }) => {
                         label="Name of the game"
                         value={game.gameName}
                         helperText="You can edit it"
-                        onChange={onEditGameName}
+                        onChange={(e) => dispatch(onEditGameName({id, name: e.target.value}))}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -67,7 +51,7 @@ const GameBoard = ({ onChange }) => {
                         label="Team1"
                         value={game.team1Name}
                         helperText="You can edit it"
-                        onChange={onEditTeam1}
+                        onChange={(e) => dispatch(onEditTeam1({id, name: e.target.value}))}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -76,7 +60,7 @@ const GameBoard = ({ onChange }) => {
                         label="Team2"
                         value={game.team2Name}
                         helperText="You can edit it"
-                        onChange={onEditTeam2}
+                        onChange={(e) => dispatch(onEditTeam2({id, name: e.target.value}))}
                     />
                 </Grid>
                 <Grid item xs={4}>
@@ -100,13 +84,13 @@ const GameBoard = ({ onChange }) => {
                 <Grid item xs={6}>
                     <Button
                         disabled={game.isGameOver}
-                        onClick={() => dispatch(addPointTeam1(id))}
+                        onClick={() => dispatch(addPointTeam1({id}))}
                     >+</Button>
                 </Grid>
                 <Grid item xs={6}>
                     <Button
                         disabled={game.isGameOver}
-                        onClick={() => dispatch(addPointTeam2(id))}
+                        onClick={() => dispatch(addPointTeam2({id}))}
                     >+</Button>
                 </Grid>
             </Grid>

@@ -11,15 +11,41 @@ export const getGamesList = createAsyncThunk(
 
 export const addPointTeam1 = createAsyncThunk(
   'games/addPointTeam1',
-  async (id: number, thunkAPI) => {    
+  async ({ id }: FetchDataParams, thunkAPI) => {
     return await apiService.post('addPointTeam1', id);
   },
 )
 
 export const addPointTeam2 = createAsyncThunk(
   'games/addPointTeam2',
-  async (id: number, thunkAPI) => {    
+  async ({ id }: FetchDataParams, thunkAPI) => {
     return await apiService.post('addPointTeam2', id);
+  },
+)
+
+interface FetchDataParams {
+  id: number;
+  name: string;
+}
+
+export const onEditGameName = createAsyncThunk(
+  'games/onEditGameName',
+  async ({ id, name }: FetchDataParams, thunkAPI) => {
+    return await apiService.onEditGameName(id, name);
+  },
+)
+
+export const onEditTeam1 = createAsyncThunk(
+  'games/onEditTeam1',
+  async ({ id, name }: FetchDataParams, thunkAPI) => {
+    return await apiService.onEditTeam1(id, name);
+  },
+)
+
+export const onEditTeam2 = createAsyncThunk(
+  'games/onEditTeam2',
+  async ({ id, name }: FetchDataParams, thunkAPI) => {
+    return await apiService.onEditTeam2(id, name);
   },
 )
 
@@ -58,21 +84,47 @@ export const gamesSlice = createSlice({
       state.isReady = true;
     })
     builder.addCase(addPointTeam1.fulfilled, (state, action) => {
-      const id = action.meta.arg;
-      const gameIndex = state.list.findIndex(item => item.id === +id);
-      if (gameIndex !== -1) {
-        state.list[gameIndex] = action.payload;
+      const index = getIndexbyId(state.list, action.payload.id);
+
+      if (index) {
+        state.list[index] = action.payload;
       }
     })
     builder.addCase(addPointTeam2.fulfilled, (state, action) => {
-      const id = action.meta.arg;
-      const gameIndex = state.list.findIndex(item => item.id === +id);
-      if (gameIndex !== -1) {
-        state.list[gameIndex] = action.payload;
+      const index = getIndexbyId(state.list, action.payload.id);
+
+      if (index) {
+        state.list[index] = action.payload;
+      }
+    })
+    builder.addCase(onEditGameName.fulfilled, (state, action) => {
+      const index = getIndexbyId(state.list, action.payload.id);
+
+      if (index) {
+        state.list[index] = action.payload;
+      }
+    })
+    builder.addCase(onEditTeam1.fulfilled, (state, action) => {
+      const index = getIndexbyId(state.list, action.payload.id);
+
+      if (index) {
+        state.list[index] = action.payload;
+      }
+    })
+    builder.addCase(onEditTeam2.fulfilled, (state, action) => {
+      const index = getIndexbyId(state.list, action.payload.id);
+
+      if (index) {
+        state.list[index] = action.payload;
       }
     })
   },
 })
+
+const getIndexbyId = (list: IApiResponse[], id: number) => {
+  const gameIndex = list.findIndex(item => item.id === id);
+  return (gameIndex === -1) ? 0 : gameIndex;
+}
 
 // Action creators are generated for each case reducer function
 export const { setLoaded, setLoading } = gamesSlice.actions

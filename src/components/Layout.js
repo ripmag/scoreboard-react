@@ -11,12 +11,19 @@ import HomeIcon from '@mui/icons-material/Home';
 import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom';
 
-// import { useSelector, useDispatch } from 'react-redux';
-// import { deleteGame } from "../features/games/gamesSlice";
+import { useDispatch } from 'react-redux';
+import { createGame } from "../features/games/gamesSlice.ts";
+
+import { unwrapResult } from '@reduxjs/toolkit';
 
 export const Layout = () => {
     const navigate = useNavigate();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+
+    const handleAddGame = () => {
+        dispatch(createGame())
+            .then(res => navigate (`/game/${unwrapResult(res)}`) );
+    }
     return (
         <>
             <Container maxWidth="sm">
@@ -28,7 +35,7 @@ export const Layout = () => {
                             <HomeIcon />
                         </Button>
                         <Button color="inherit"
-                            onClick={() => { }}
+                            onClick={handleAddGame}
                         >
                             <AddGameIcon />
                         </Button>
@@ -42,12 +49,10 @@ export const Layout = () => {
                         display="flex"
                         justifyContent={'center'}
                     >
-
                         <Outlet />
                     </Box>
                 </Paper>
             </Container>
         </>
-
     );
 }

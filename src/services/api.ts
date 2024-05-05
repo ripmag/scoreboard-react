@@ -2,18 +2,19 @@ import axios, { AxiosResponse } from 'axios';
 import { GameDTO } from '../entities/game-dto';
 
 // Интерфейс для данных, получаемых от сервера
-export interface IApiResponse extends GameDTO {}
+export interface IApiResponse extends GameDTO { }
 
 class ApiService {
 
   private baseUrl = 'http://localhost:3000/games';
   private config = { headers: { 'Content-Type': 'application/json' } };
 
-  async get(endpoint: string): Promise<IApiResponse | IApiResponse[]> {
+  async get(endpoint: string): Promise<IApiResponse[]> {
     const url = `${this.baseUrl}/${endpoint}`
     try {
-      const response: AxiosResponse = await axios.get(url);
-      return response.data;
+      const { data }: AxiosResponse = await axios.get(url);
+      
+      return Array.isArray(data) ? data : [data];
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -47,12 +48,11 @@ class ApiService {
     }
   }
 
-  async delete( id: number): Promise<boolean> {console.error('aaa:', id);
+  async delete(id: number): Promise<boolean> {
     const url = `${this.baseUrl}/${id}`;
 
     try {
       const response: AxiosResponse = await axios.delete(url, this.config);
-      console.log('succes delete', response)
       return true;
 
     } catch (error) {
@@ -66,15 +66,15 @@ class ApiService {
   }
 
   onEditGameName(id: number, name: string) {
-    return this.updateInfo(id, {gameName: name});
+    return this.updateInfo(id, { gameName: name });
   }
 
   onEditTeam1(id: number, name: string) {
-    return this.updateInfo(id, {team1Name: name});
+    return this.updateInfo(id, { team1Name: name });
   }
 
   onEditTeam2(id: number, name: string) {
-    return this.updateInfo(id, {team2Name: name});
+    return this.updateInfo(id, { team2Name: name });
   }
 
   // async addPointTeam1(id: number) : Promise<IApiResponse> {

@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { unwrapResult } from '@reduxjs/toolkit';
 import apiService from '../../services/api.ts'
 import { IApiResponse } from '../../services/api.ts'
 
@@ -62,6 +61,20 @@ export const onEditTeam2 = createAsyncThunk(
   'games/onEditTeam2',
   async ({ id, name }: FetchDataParams, thunkAPI) => {
     return await apiService.onEditTeam2(id, name);
+  },
+)
+
+export const createGame = createAsyncThunk(
+  'games/createGame',
+  async (_, thunkAPI) => {
+    const result = await apiService.get('createGame');
+    console.log('res',result[0])
+
+    if (result[0]) {
+      await thunkAPI.dispatch(getGamesList());
+      return result[0].id;
+    }
+    
   },
 )
 

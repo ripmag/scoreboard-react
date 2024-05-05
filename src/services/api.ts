@@ -47,6 +47,20 @@ class ApiService {
     }
   }
 
+  async delete( id: number): Promise<boolean> {console.error('aaa:', id);
+    const url = `${this.baseUrl}/${id}`;
+
+    try {
+      const response: AxiosResponse = await axios.delete(url, this.config);
+      console.log('succes delete', response)
+      return true;
+
+    } catch (error) {
+      console.error('Error delete data:', error);
+      throw error;
+    }
+  }
+
   updateInfo(id: number, content: any) {
     return this.put('updateInfo', id, content)
   }

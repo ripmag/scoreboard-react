@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { unwrapResult } from '@reduxjs/toolkit';
 import apiService from '../../services/api.ts'
 import { IApiResponse } from '../../services/api.ts'
+
+import { useDispatch } from 'react-redux'
 
 export const getGamesList = createAsyncThunk(
   'games/getGames',
@@ -13,6 +16,19 @@ export const addPointTeam1 = createAsyncThunk(
   'games/addPointTeam1',
   async ({ id }: FetchDataParams, thunkAPI) => {
     return await apiService.post('addPointTeam1', id);
+  },
+)
+
+export const deleteGame = createAsyncThunk(
+  'games/deleteGame',
+  async ({ id }: FetchDataParams, thunkAPI) => {
+    const result = await apiService.delete(id);
+
+    if (result) {
+      await thunkAPI.dispatch(getGamesList());
+    }
+    
+    return result;
   },
 )
 
@@ -79,7 +95,7 @@ export const gamesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getGamesList.fulfilled, (state, action) => {
+    builder.addCase(getGamesList.fulfilled, (state, action) => {console.log('getGamesList')
       state.list = action.payload;
       state.isReady = true;
     })

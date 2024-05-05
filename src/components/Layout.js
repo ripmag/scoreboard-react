@@ -11,8 +11,12 @@ import HomeIcon from '@mui/icons-material/Home';
 import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom';
 
+// import { useSelector, useDispatch } from 'react-redux';
+// import { deleteGame } from "../features/games/gamesSlice";
+
 export const Layout = () => {
     const navigate = useNavigate();
+    // const dispatch = useDispatch();
     return (
         <>
             <Container maxWidth="sm">

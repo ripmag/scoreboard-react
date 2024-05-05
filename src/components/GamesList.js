@@ -7,18 +7,21 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import BallIcon from '@mui/icons-material/SportsVolleyball';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import Button from '@mui/material/Button';
 import ResetScoreIcon from '@mui/icons-material/RestartAlt';
 
 import Typography from '@mui/material/Typography';
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom';
 import { Stack } from '@mui/material';
+
+import { deleteGame } from '../features/games/gamesSlice.ts';
 
 
 const GamesList = () => {
     const list = useSelector((state) => state.games.list);
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -27,7 +30,7 @@ const GamesList = () => {
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 subheader={
-                    <ListSubheader 
+                    <ListSubheader
                         component="div"
                         id="nested-list-subheader"
                         align='center'
@@ -56,14 +59,20 @@ const GamesList = () => {
                                 </ListItemButton>
                             </NavLink>
                             <ListItemIcon
-                                sx={{ 
+                                sx={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: 1,
                                     m: 1
                                 }}
                             >
-                                <DeleteIcon />
+                                <Button
+                                    variant="contained"
+                                    title='delete game'
+                                    onClick={() => dispatch(deleteGame( {id: game.id} ))}
+                                >
+                                    <DeleteIcon />
+                                </Button>
                                 <ResetScoreIcon />
                             </ListItemIcon>
                         </Stack>

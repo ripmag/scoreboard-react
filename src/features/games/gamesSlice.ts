@@ -121,7 +121,9 @@ export const gamesSlice = createSlice({
       const index = getIndexbyId(state.list, action.payload.id);
 
       if (index) {
-        state.list[index] = action.payload;
+        const newList = [...state.list];
+        newList[index] = action.payload;
+        state.list = [...newList];
       }
     }
   },

@@ -54,6 +54,13 @@ interface FetchDataParams {
   name: string;
 }
 
+export const updateInfo = createAsyncThunk(
+  'games/updateInfo',
+  async ({ id, content }: any, thunkAPI) => { console.log('id, content',id, content)
+    return await apiService.updateInfo(id, content);
+  },
+)
+
 export const onEditGameName = createAsyncThunk(
   'games/onEditGameName',
   async ({ id, name }: FetchDataParams, thunkAPI) => {
@@ -146,7 +153,7 @@ export const gamesSlice = createSlice({
         state.list[index] = action.payload;
       }
     })
-    builder.addCase(onEditGameName.fulfilled, (state, action) => {
+    builder.addCase(updateInfo.fulfilled, (state, action) => {
       const index = getIndexbyId(state.list, action.payload.id);
 
       if (index) {

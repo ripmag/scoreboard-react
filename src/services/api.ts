@@ -62,7 +62,7 @@ class ApiService {
     }
   }
 
-  updateInfo(id: number, content: any) {
+  updateInfo(id: number, content: any) {console.log('aaaaaaaaa',id,content)
     return this.put('updateInfo', id, content)
   }
 

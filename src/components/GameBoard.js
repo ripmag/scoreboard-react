@@ -16,11 +16,14 @@ import { useParams } from 'react-router-dom'
 import {
     addPointTeam1,
     addPointTeam2,
-    onEditGameName,
+    updateInfo,
     onEditTeam1,
     onEditTeam2,
 } from '../features/games/gamesSlice.ts';
 import PointIcon from '@mui/icons-material/ControlPoint.js';
+import EditIcon from '@mui/icons-material/Edit.js';
+import GameForm from './GameForm.js';
+import IconButton from '@mui/material/IconButton';
 
 
 const GameBoard = () => {
@@ -29,16 +32,19 @@ const GameBoard = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const [game, setGame] = useState();
-
-    const helperText = game && game.isGameOver ? "Game finished" : "You can edit it";
+    const [isShowForm, setIsShowForm] = useState(false);
 
     useEffect(() => {
         setGame(list.find(game => game.id === +id));
     }, [list, id])
 
-    const editName = debounce((e) => {
-        dispatch(onEditGameName({ id, name: e.target.value }));
-    }, 1000)
+    // const editName = debounce((e) => {
+    //     dispatch(onEditGameName({ id, name: e.target.value }));
+    // }, 1000)
+
+    const onSaveGame = (content) => {
+        dispatch(updateInfo({ id, content }));
+    }
 
     const editTeam1 = debounce((e) => {
         dispatch(onEditTeam1({ id, name: e.target.value }));
@@ -50,35 +56,50 @@ const GameBoard = () => {
 
     if (!game) { return null; }
 
+    if (isShowForm) {
+        return (
+            <GameForm
+                gameName={game.gameName}
+                team1Name={game.team1Name}
+                team2Name={game.team2Name}
+                onSubmit={onSaveGame}
+                onBack={() => setIsShowForm(false)}
+            />)
+    }
+
     return (
         <>
-            <Grid container spacing={2} >
+            <Grid container spacing={0}>
                 <Grid
-                    item xs={12}
+                    item xs={10}
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <Stack>
-                        <TextField
-                            sx={{ m: 2, mb: 0 }}
-                            id="outlined-helperText"
-                            label="Name of the game"
-                            defaultValue={game.gameName}
-                            disabled={game.isGameOver}
-                            helperText={helperText}
-                            onChange={editName}
-                        />
-                    </Stack>
+                    <TextField
+                        sx={{ m: 2, mb: 0 }}
+                        id="outlined-helperText"
+                        label="Name of the game"
+                        value={game.gameName}
+                    />
+                </Grid>
+                <Grid
+                    item xs={2}
+                    alignItems="center"
+                    justifyContent="center"
+                >
+                    <IconButton
+                        title='go back'
+                        onClick={() => setIsShowForm(true)}
+                    >
+                        <EditIcon />
+                    </IconButton>
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
                         sx={{ m: 2 }}
                         id="outlined-helperText"
                         label="Team1"
-                        defaultValue={game.team1Name}
-                        disabled={game.isGameOver}
-                        helperText={helperText}
-                        onChange={editTeam1}
+                        value={game.team1Name}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -86,10 +107,8 @@ const GameBoard = () => {
                         sx={{ m: 2 }}
                         id="outlined-helperText"
                         label="Team2"
-                        defaultValue={game.team2Name}
-                        disabled={game.isGameOver}
-                        helperText={helperText}
-                        onChange={editTeam2}
+                        value={game.team2Name}
+                        contentEditable={false}
                     />
                 </Grid>
                 <Grid item xs={4}>

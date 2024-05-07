@@ -1,12 +1,13 @@
 import axios, { AxiosResponse } from 'axios';
 import { GameDTO } from '../entities/game-dto';
+import { host } from './socketApi';
 
 // Интерфейс для данных, получаемых от сервера
 export interface IApiResponse extends GameDTO { }
 
 class ApiService {
 
-  private baseUrl = 'http://localhost:3000/games';
+  private baseUrl = `${host}/games`;
   private config = { headers: { 'Content-Type': 'application/json' } };
 
   async get(endpoint: string): Promise<IApiResponse[]> {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet } from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
@@ -15,10 +15,16 @@ import { useDispatch } from 'react-redux';
 import { createGame } from "../features/games/gamesSlice.ts";
 
 import { unwrapResult } from '@reduxjs/toolkit';
+import { socketApi } from "../services/socketApi.js";
+import { updateGame } from "../features/games/gamesSlice.ts";
 
 export const Layout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        socketApi.onAddActionUpdateGame((game) => dispatch(updateGame(game)));
+    }, [dispatch])
 
     const handleAddGame = () => {
         dispatch(createGame())

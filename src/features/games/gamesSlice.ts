@@ -117,10 +117,16 @@ export const gamesSlice = createSlice({
     setGameId: (state, action) => {
       state.gameId = action.payload;
     },
+    updateGame: (state, action) => {
+      const index = getIndexbyId(state.list, action.payload.id);
+
+      if (index) {
+        state.list[index] = action.payload;
+      }
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(getGamesList.fulfilled, (state, action) => {
-      console.log('getGamesList')
       state.list = action.payload;
       state.isReady = true;
     })
@@ -168,6 +174,6 @@ const getIndexbyId = (list: IApiResponse[], id: number) => {
 }
 
 // Action creators are generated for each case reducer function
-export const { setLoaded, setLoading } = gamesSlice.actions
+export const { setLoaded, setLoading, updateGame } = gamesSlice.actions
 
 export default gamesSlice.reducer

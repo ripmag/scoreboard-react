@@ -20,7 +20,7 @@ import { deleteGame, resetGame } from '../features/games/gamesSlice.ts';
 
 
 const GamesList = () => {
-    const list = useSelector((state) => state.games.list);
+    const list = useSelector((state) => Object.values(state.games.list));
     const dispatch = useDispatch();
 
     return (

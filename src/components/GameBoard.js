@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -17,8 +16,6 @@ import {
     addPointTeam1,
     addPointTeam2,
     updateInfo,
-    onEditTeam1,
-    onEditTeam2,
 } from '../features/games/gamesSlice.ts';
 import PointIcon from '@mui/icons-material/ControlPoint.js';
 import EditIcon from '@mui/icons-material/Edit.js';
@@ -35,7 +32,7 @@ const GameBoard = () => {
     const [isShowForm, setIsShowForm] = useState(false);
 
     useEffect(() => {
-        setGame(list.find(game => game.id === +id));
+        setGame(list[+id]);
     }, [list, id])
 
     // const editName = debounce((e) => {
@@ -46,13 +43,6 @@ const GameBoard = () => {
         dispatch(updateInfo({ id, content }));
     }
 
-    const editTeam1 = debounce((e) => {
-        dispatch(onEditTeam1({ id, name: e.target.value }));
-    }, 1000)
-
-    const editTeam2 = debounce((e) => {
-        dispatch(onEditTeam2({ id, name: e.target.value }));
-    }, 1000)
 
     if (!game) { return null; }
 

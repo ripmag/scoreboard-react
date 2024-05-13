@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-export const host = 'http://localhost:3000'; //в конфиг файл
+export const host = 'http://localhost:8080'; //в конфиг файл
 
 export default class SocketApi {
   socket = null;

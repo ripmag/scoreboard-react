@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 
-export const host = 'http://localhost:8080'; //в конфиг файл
+// export const host = 'http://localhost:8080'; //в конфиг файл
+export const host = 'https://scoreboard-nestjs-i4c7cfxjuq-uc.a.run.app/'; //в конфиг файл
 
 export default class SocketApi {
   socket = null;

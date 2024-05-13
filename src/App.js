@@ -24,8 +24,7 @@ function App() {
   // }, [dispatch])
 
 
-  // if (!isReady) 
-    {
+  if (!isReady) {
     return (
       <Container maxWidth="sm">
         <CircularProgress />

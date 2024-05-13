@@ -7,21 +7,21 @@ import CircularProgress from '@mui/material/CircularProgress';
 import GamesList from './components/GamesList';
 import GameBoard from './components/GameBoard';
 
-import { useSelector, useDispatch } from 'react-redux'
-import { getGamesList } from './features/games/gamesSlice.ts';
+// import { useSelector, useDispatch } from 'react-redux'
+// import { getGamesList } from './features/games/gamesSlice.ts';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/Layout.js';
 
 function App() {
   
 
-  // const list = useSelector((state) => state.games.list);
-  const isReady = useSelector((state) => state.games.isReady);
-  const dispatch = useDispatch();
+  // // const list = useSelector((state) => state.games.list);
+  // const isReady = useSelector((state) => state.games.isReady);
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getGamesList());
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getGamesList());
+  // }, [dispatch])
 
 
   if (!isReady) {
@@ -31,17 +31,17 @@ function App() {
       </Container>)
   }
 
-  return (
-    <>
-      <Routes>
-        <Route path='/' element={<Layout />}>
-          <Route index element={<GamesList />} />
-          <Route path='/game/:id' element={<GameBoard />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
-    </>
-  );
+  // return (
+  //   <>
+  //     <Routes>
+  //       <Route path='/' element={<Layout />}>
+  //         <Route index element={<GamesList />} />
+  //         <Route path='/game/:id' element={<GameBoard />} />
+  //         <Route path="*" element={<Navigate to="/" replace />} />
+  //       </Route>
+  //     </Routes>
+  //   </>
+  // );
 }
 
 export default App;

@@ -1,6 +1,5 @@
 {
-  "name": "scoreboard",
-  "homepage": "https://ripmag.github.io/scoreboard-react/",
+  "name": "scoreboard",  
   "version": "0.1.0",
   "private": true,
   "dependencies": {

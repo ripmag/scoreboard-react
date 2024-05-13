@@ -9,7 +9,7 @@ import GameBoard from './components/GameBoard';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { getGamesList } from './features/games/gamesSlice.ts';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout.js';
 
 function App() {
@@ -37,7 +37,6 @@ function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<GamesList />} />
           <Route path='/game/:id' element={<GameBoard />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
     </>

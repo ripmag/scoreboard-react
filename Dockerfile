@@ -1,24 +1,29 @@
-# Base image
-FROM node:18-alpine
+# syntax=docker/dockerfile:1
 
-# Create app directory
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Dockerfile reference guide at
+# https://docs.docker.com/go/dockerfile-reference/
+
+# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
+
+ARG NODE_VERSION=16.16.0
+
+################################################################################
+# Use node image for base image for all stages.
+FROM node:${NODE_VERSION}-alpine as base
+
+# Set working directory for all build stages.
+# set working directory
 WORKDIR /app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
 
-# Install app dependencies
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm install
 
-# Bundle app source
-COPY . .
+# add app
+COPY . ./
 
-# Creates a "dist" folder with the production build
-ENV NODE_ENV production
-RUN npm run build
-
-EXPOSE 3000
-# ENV PORT=8080
-
-# Start the server using the production build
-CMD [ "npm", "run", "start" ]
+# start app
+CMD ["npm", "start"]   
